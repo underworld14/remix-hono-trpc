@@ -7,10 +7,6 @@ import esbuild from "esbuild";
 export default defineConfig({
   server: {
     port: 3000,
-    https: {
-      key: "./server/dev/key.pem",
-      cert: "./server/dev/cert.pem",
-    },
     // https://github.com/remix-run/remix/discussions/8917#discussioncomment-8640023
     warmup: {
       clientFiles: [
