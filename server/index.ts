@@ -1,21 +1,16 @@
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { trpcServer } from "@hono/trpc-server";
-import {
-  type AppLoadContext,
-  createCookieSessionStorage,
-  type ServerBuild,
-} from "@remix-run/node";
+import { type AppLoadContext, createCookieSessionStorage, type ServerBuild } from "@remix-run/node";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { remix } from "remix-hono/handler";
 import { session, getSession, getSessionStorage } from "remix-hono/session";
 import { cache } from "server/middlewares";
 import { importDevBuild } from "./dev/server";
-import { appRouter } from "./trpc/router";
+import { appRouter } from "./routes";
 
-const mode =
-  process.env.NODE_ENV === "test" ? "development" : process.env.NODE_ENV;
+const mode = process.env.NODE_ENV === "test" ? "development" : process.env.NODE_ENV;
 
 const isProductionMode = mode === "production";
 
@@ -27,7 +22,7 @@ const app = new Hono();
 app.use(
   "/assets/*",
   cache(60 * 60 * 24 * 365), // 1 year
-  serveStatic({ root: "./build/client" })
+  serveStatic({ root: "./build/client" }),
 );
 
 /**
@@ -36,7 +31,7 @@ app.use(
 app.use(
   "*",
   cache(60 * 60),
-  serveStatic({ root: isProductionMode ? "./build/client" : "./public" })
+  serveStatic({ root: isProductionMode ? "./build/client" : "./public" }),
 ); // 1 hour
 
 /**
@@ -76,8 +71,21 @@ app.use(
         },
       };
     },
-  })
+  }),
 );
+
+app.use(async (c, next) => {
+  const pathname = new URL(c.req.url).pathname;
+  if (!pathname.startsWith("/auth")) {
+    const session = getSession(c);
+
+    if (!session.has("userId")) {
+      return c.redirect("/auth/login");
+    }
+  }
+
+  return next();
+});
 
 /**
  * Add trpc middleware
@@ -86,7 +94,13 @@ app.use(
   "/trpc/*",
   trpcServer({
     router: appRouter,
-  })
+    createContext(opts, c) {
+      return {
+        session: getSession(c),
+        sessionStorage: getSessionStorage(c),
+      };
+    },
+  }),
 );
 
 /**
@@ -130,22 +144,8 @@ if (isProductionMode) {
     },
     async (info) => {
       console.log(`🚀 Server started on port ${info.port}`);
-    }
+    },
   );
 }
 
 export default app;
-
-/**
- * Declare our loaders and actions context type
- */
-declare module "@remix-run/node" {
-  interface AppLoadContext {
-    /**
-     * The app version from the build assets
-     */
-    readonly appVersion: string;
-    readonly session: ReturnType<typeof getSession>;
-    readonly sessionStorage: ReturnType<typeof getSessionStorage>;
-  }
-}

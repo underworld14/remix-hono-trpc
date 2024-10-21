@@ -6,26 +6,16 @@ import {
   unstable_parseMultipartFormData,
   defer,
 } from "@remix-run/node";
-import {
-  Await,
-  Form,
-  json,
-  useActionData,
-  useLoaderData,
-} from "@remix-run/react";
+import { Await, Form, json, useActionData, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
+  return [{ title: "New Remix App" }, { name: "description", content: "Welcome to Remix!" }];
 };
 
 export function loader({ context }: LoaderFunctionArgs) {
   const { appVersion } = context;
   const message = "Hello World from Remix Vite loader";
-  console.log(message, appVersion);
   return defer({
     message,
     appVersion,
@@ -43,7 +33,7 @@ export function loader({ context }: LoaderFunctionArgs) {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await unstable_parseMultipartFormData(
     request,
-    unstable_createMemoryUploadHandler()
+    unstable_createMemoryUploadHandler(),
   );
   console.log("file", formData.get("file"));
 
@@ -56,9 +46,7 @@ export default function Index() {
 
   return (
     <main className="flex flex-col items-center gap-4 py-4">
-      <h1 className="text-purple-500 text-3xl font-bold">
-        Welcome to Remix Hono Vite !
-      </h1>
+      <h1 className="text-3xl font-bold text-purple-500">Welcome to Remix Hono Vite !</h1>
       <a
         target="_blank"
         href="https://remix.run/docs/en/main/future/vite"
@@ -68,20 +56,20 @@ export default function Index() {
         Read the Remix Docs about Vite
       </a>
 
-      <div className="border-2 flex flex-col rounded-md p-4 gap-4">
+      <div className="flex flex-col gap-4 rounded-md border-2 p-4">
         <h2 className="text-xl font-bold">Debug zone</h2>
 
-        <div className="border-2 flex flex-col rounded-md p-4 gap-2">
+        <div className="flex flex-col gap-2 rounded-md border-2 p-4">
           <h2 className="text-md font-bold">Loader</h2>
           <pre className="text-sm">{JSON.stringify(loaderData, null, 2)}</pre>
         </div>
 
-        <div className="border-2 flex flex-col rounded-md p-4 gap-2">
+        <div className="flex flex-col gap-2 rounded-md border-2 p-4">
           <h2 className="text-md font-bold">Deferred loader</h2>
           <LastNews />
         </div>
 
-        <div className="border-2 flex flex-col rounded-md p-4 gap-2">
+        <div className="flex flex-col gap-2 rounded-md border-2 p-4">
           <h2 className="text-md font-bold">HMR</h2>
           <label>
             Should persist state across HMR
@@ -94,7 +82,7 @@ export default function Index() {
           </p>
         </div>
 
-        <div className="border-2 flex flex-col rounded-md p-4 gap-2">
+        <div className="flex flex-col gap-2 rounded-md border-2 p-4">
           <h2 className="text-md font-bold">Action</h2>
           <Form
             encType="multipart/form-data"
@@ -105,10 +93,7 @@ export default function Index() {
               Upload a file
               <input type="file" accept="image/*" name="file" />
             </label>
-            <button
-              type="submit"
-              className="w-fit rounded-md bg-white p-2 text-black"
-            >
+            <button type="submit" className="w-fit rounded-md bg-white p-2 text-black">
               Submit
             </button>
           </Form>

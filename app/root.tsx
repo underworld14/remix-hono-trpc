@@ -30,11 +30,11 @@ export default function App() {
           // },
         }),
       ],
-    })
+    }),
   );
 
   return (
-    <html lang="en" className="h-dvh bg-zinc-900 w-screen text-zinc-50">
+    <html lang="en" className="h-dvh w-screen bg-zinc-900 text-zinc-50">
       <head>
         <meta charSet="utf-8" />
         <meta

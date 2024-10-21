@@ -6,15 +6,13 @@ https://github.com/rphlmr/react-router-hono-server
 
 # Welcome to Remix + Vite + Hono!
 
-This is a demo of [remix-hono](https://github.com/sergiodxa/remix-hono) with Vite. 
+This is a demo of [remix-hono](https://github.com/sergiodxa/remix-hono) with Vite.
 
 It uses [Hono Vite dev server](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/README.md) with HTTPS
 
 📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
 
-
 ![CleanShot 2024-02-22 at 12 33 10](https://github.com/rphlmr/remix-hono-vite/assets/20722140/26ed6547-c776-40bd-8556-af58dd91331b)
-
 
 ## Try it
 
@@ -23,6 +21,7 @@ npx create-remix@latest --template rphlmr/remix-hono-vite
 ```
 
 ## How it works
+
 - On the local dev, you rely on [Hono Vite dev server](https://github.com/honojs/vite-plugins/blob/main/packages/dev-server/README.md)
   - With HTTPS self signed certificate
 - When building, `server/build.ts` bundles `server/index.ts` and `server/middlewares.ts` to `build/server/index.js`
