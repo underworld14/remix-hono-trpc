@@ -8,10 +8,7 @@
     "dev": "vite --host",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "format": "prettier --write .",
-    "start": "NODE_ENV=production SESSION_SECRET=s3cr3t node ./build/server/index.js",
-    "start:docker": "run-s docker:*",
-    "docker:build": "docker build -t remix-hono-vite .",
-    "docker:run": "docker run --rm -d -p 8080:8080 --env-file .env remix-hono-vite",
+    "start": "node ./build/server/index.js",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -24,8 +21,8 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
-    "@remix-run/node": "^2.12.1",
-    "@remix-run/react": "^2.12.1",
+    "@remix-run/node": "^2.13.1",
+    "@remix-run/react": "^2.13.1",
     "@tanstack/react-query": "^5.59.0",
     "@tanstack/react-query-devtools": "^5.59.0",
     "@trpc/client": "11.0.0-rc.566",
@@ -49,8 +46,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@hono/vite-dev-server": "^0.10.0",
-    "@remix-run/dev": "^2.12.1",
+    "@hono/vite-dev-server": "^0.16.0",
+    "@remix-run/dev": "^2.13.1",
     "@types/bcrypt": "^5.0.2",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
